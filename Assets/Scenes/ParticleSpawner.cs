@@ -11,13 +11,16 @@ namespace PlexusEffect.Job
 {
     public class ParticleSpawner : MonoBehaviour
     {
-        [SerializeField] private GameObject prefab;
+        [SerializeField] private Particle prefab;
         [SerializeField] private float spawnRadius = 2f;
         [SerializeField] private int initalSpawnCount = 1000;
+        [SerializeField] private List<Texture2D> textures;
 
         private TransformAccessArray trs;
         private NativeList<Vector3> pos;
         private NativeList<float> seeds;
+
+        public TransformAccessArray Trs => trs;
 
         void Start()
         {
@@ -49,6 +52,7 @@ namespace PlexusEffect.Job
         {
             var go = Instantiate(prefab);
             go.transform.position = Random.insideUnitSphere * spawnRadius;
+            go.Setup(textures.RandomPick());
 
             trs.Add(go.transform);
             pos.Add(go.transform.position);
